@@ -1,0 +1,308 @@
+.booking-page {
+  min-height: 100svh;
+  width: 100%;
+  background: var(--green-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Header ---------- */
+.booking-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.booking-back-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-h);
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.booking-back-btn:hover {
+  background: var(--green-bg);
+  border-color: var(--green);
+}
+
+.booking-header-text h1 {
+  font-size: 18px;
+  color: var(--green-dark);
+}
+
+.booking-header-text p {
+  font-size: 12.5px;
+  color: var(--earth);
+  margin-top: 2px;
+}
+
+/* ---------- Main layout ---------- */
+.booking-main {
+  flex: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+.selected-summary {
+  font-size: 13.5px;
+  color: var(--earth);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+}
+
+/* ---------- Centre selection ---------- */
+.centre-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.centre-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.centre-info h3 {
+  font-size: 15px;
+  color: var(--text-h);
+  margin-bottom: 6px;
+}
+
+.centre-location {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.centre-slots {
+  font-size: 12.5px;
+  color: var(--green-dark);
+  font-weight: 600;
+}
+
+.select-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--green);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.select-btn:hover {
+  background: var(--green-dark);
+}
+
+/* ---------- Date selection ---------- */
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.date-card {
+  padding: 16px 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--text-h);
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.date-card:hover {
+  border-color: var(--green);
+  background: var(--green-bg);
+  color: var(--green-dark);
+}
+
+/* ---------- Slot selection ---------- */
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.slot-card {
+  position: relative;
+  padding: 16px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--text-h);
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.slot-card:hover:not(:disabled) {
+  border-color: var(--green);
+  background: var(--green-bg);
+  color: var(--green-dark);
+}
+
+.slot-card.slot-unavailable {
+  background: #f4f4f4;
+  color: var(--earth);
+  border-color: var(--border);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.slot-tag {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--error);
+}
+
+/* ---------- Shared info card (review + confirmation) ---------- */
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 24px 22px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.info-row:last-of-type {
+  border-bottom: none;
+}
+
+.info-label {
+  color: var(--earth);
+  font-weight: 500;
+}
+
+.info-value {
+  color: var(--text-h);
+  font-weight: 600;
+  text-align: right;
+}
+
+.primary-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: var(--green-dark);
+}
+
+/* ---------- Confirmation screen ---------- */
+.confirmation-card {
+  text-align: center;
+}
+
+.confirmation-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.confirmation-heading {
+  font-size: 20px;
+  color: var(--green-dark);
+  margin-bottom: 18px;
+}
+
+.confirmation-token-label {
+  font-size: 13px;
+  color: var(--earth);
+  margin-bottom: 4px;
+}
+
+.confirmation-token {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--green-dark);
+  font-family: ui-monospace, Consolas, monospace;
+  margin-bottom: 20px;
+}
+
+.confirmation-details {
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  .booking-header {
+    padding: 12px 16px;
+  }
+
+  .booking-main {
+    padding: 20px 16px 40px;
+  }
+
+  .centre-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .select-btn {
+    width: 100%;
+  }
+
+  .date-grid,
+  .slot-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .info-value {
+    text-align: left;
+  }
+}

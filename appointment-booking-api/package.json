@@ -1,0 +1,22 @@
+{
+  "name": "appointment-booking-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @appointment/api dev",
+    "dev:web": "pnpm --filter @appointment/web dev",
+    "dev:all": "pnpm --recursive --parallel dev",
+    "build:web": "pnpm --filter @appointment/web build",
+    "test": "pnpm --recursive test",
+    "lint": "pnpm --recursive lint",
+    "lint:fix": "pnpm --recursive lint:fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "seed": "pnpm --filter @appointment/api seed",
+    "start": "pnpm --filter @appointment/api start"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3"
+  }
+}

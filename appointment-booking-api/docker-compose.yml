@@ -1,0 +1,65 @@
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:16-alpine
+    container_name: appointment-booking-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-appointment_system}
+    ports:
+      - '${DB_PORT:-5433}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-appointment_system}',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - appointment-network
+
+  # Node.js API Service
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: appointment-booking-api
+    restart: unless-stopped
+    ports:
+      - '${PORT:-3000}:3000'
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-appointment_system}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_SSL: 'false'
+      JWT_SECRET: ${JWT_SECRET:-dev_jwt_secret_key_12345}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
+      SOCKET_CORS_ORIGIN: ${SOCKET_CORS_ORIGIN:-*}
+      HASH_SALT: ${HASH_SALT:-10}
+    volumes:
+      - ./apps/api:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - appointment-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  appointment-network:
+    driver: bridge
