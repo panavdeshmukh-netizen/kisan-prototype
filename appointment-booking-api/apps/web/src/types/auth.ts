@@ -1,4 +1,4 @@
-export type UserRole = 'client' | 'provider'
+export type UserRole = 'client' | 'provider' | 'farmer'
 
 export interface User {
   id: number

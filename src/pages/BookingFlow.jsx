@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import './booking/BookingFlow.css'
 
 import CentreSelection from './booking/CentreSelection.jsx'
@@ -7,64 +7,24 @@ import SlotSelection from './booking/SlotSelection.jsx'
 import BookingReview from './booking/BookingReview.jsx'
 import BookingConfirmation from './booking/BookingConfirmation.jsx'
 
-// Demo farmer name
 const farmerName = 'Ramesh Kumar'
 
-// Demo procurement centres
 const DEMO_CENTRES = [
-  {
-    id: 1,
-    name: 'E2E Procurement Centre',
-    provider_name: 'E2E Procurement Centre',
-    address: 'Pune, Maharashtra',
-  },
-  {
-    id: 2,
-    name: 'Krishi Mandi Centre',
-    provider_name: 'Krishi Mandi Centre',
-    address: 'Nashik, Maharashtra',
-  },
-  {
-    id: 3,
-    name: 'Farmer Support Centre',
-    provider_name: 'Farmer Support Centre',
-    address: 'Mumbai, Maharashtra',
-  },
+  { id: 1, name: 'Village Procurement Centre - Sector 12', location: 'Sector 12, Village Road', availableSlots: 8 },
+  { id: 2, name: 'Agricultural Procurement Centre - Main Road', location: 'Main Road, Town Centre', availableSlots: 5 },
+  { id: 3, name: 'District Procurement Centre - Block A', location: 'Block A, District HQ', availableSlots: 12 },
 ]
 
-// Order of booking steps
-const STEPS = [
-  'centre',
-  'date',
-  'slot',
-  'review',
-  'confirmation',
-]
+const STEPS = ['centre', 'date', 'slot', 'review', 'confirmation']
 
 const STEP_INFO = {
-  centre: {
-    title: 'Select Procurement Centre',
-    subtitle: 'Step 1 of 4',
-  },
-  date: {
-    title: 'Select Date',
-    subtitle: 'Step 2 of 4',
-  },
-  slot: {
-    title: 'Select Time Slot',
-    subtitle: 'Step 3 of 4',
-  },
-  review: {
-    title: 'Review Booking',
-    subtitle: 'Step 4 of 4',
-  },
-  confirmation: {
-    title: 'Booking Confirmation',
-    subtitle: '',
-  },
+  centre:       { title: 'Select Procurement Centre', subtitle: 'Step 1 of 4' },
+  date:         { title: 'Select Date',                subtitle: 'Step 2 of 4' },
+  slot:         { title: 'Select Time Slot',           subtitle: 'Step 3 of 4' },
+  review:       { title: 'Review Booking',             subtitle: 'Step 4 of 4' },
+  confirmation: { title: 'Booking Confirmation',       subtitle: '' },
 }
 
-// Generate demo token
 function generateDemoToken() {
   const randomNumber = Math.floor(Math.random() * 900) + 100
   return `ACB${randomNumber}`
@@ -72,19 +32,15 @@ function generateDemoToken() {
 
 function BookingFlow({ onDone }) {
   const [step, setStep] = useState('centre')
-
   const [selectedCentre, setSelectedCentre] = useState(null)
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedSlot, setSelectedSlot] = useState(null)
-  const [tokenNumber, setTokenNumber] = useState(null)
+  const [confirmedBooking, setConfirmedBooking] = useState(null)
 
   const handleSelectCentre = (centre) => {
     setSelectedCentre(centre)
-
-    // Reset next selections
     setSelectedDate(null)
     setSelectedSlot(null)
-
     setStep('date')
   }
 
@@ -101,10 +57,6 @@ function BookingFlow({ onDone }) {
 
   const handleConfirmBooking = () => {
     const newToken = generateDemoToken()
-
-    setTokenNumber(newToken)
-
-    // Save booking locally for demo
     const booking = {
       id: Date.now(),
       token: newToken,
@@ -114,19 +66,17 @@ function BookingFlow({ onDone }) {
       slot: selectedSlot,
       status: 'Active',
     }
-
     localStorage.setItem('demoBooking', JSON.stringify(booking))
-
+    setConfirmedBooking(booking)
     setStep('confirmation')
   }
 
   const handleBack = () => {
     const currentIndex = STEPS.indexOf(step)
-
     if (currentIndex > 0) {
       setStep(STEPS[currentIndex - 1])
     } else {
-      onDone()
+      onDone(null)
     }
   }
 
@@ -134,53 +84,28 @@ function BookingFlow({ onDone }) {
 
   return (
     <div className="booking-page">
-
       <header className="booking-header">
-
         {step !== 'confirmation' && (
-          <button
-            type="button"
-            className="booking-back-btn"
-            onClick={handleBack}
-          >
+          <button type="button" className="booking-back-btn" onClick={handleBack}>
             ← Back
           </button>
         )}
-
         <div className="booking-header-text">
           <h1>{title}</h1>
-
-          {subtitle && (
-            <p>{subtitle}</p>
-          )}
+          {subtitle && <p>{subtitle}</p>}
         </div>
-
       </header>
 
       <main className="booking-main">
-
         {step === 'centre' && (
-          <CentreSelection
-            providers={DEMO_CENTRES}
-            onSelect={handleSelectCentre}
-          />
+          <CentreSelection providers={DEMO_CENTRES} onSelect={handleSelectCentre} />
         )}
-
         {step === 'date' && (
-          <DateSelection
-            centre={selectedCentre}
-            onSelect={handleSelectDate}
-          />
+          <DateSelection centre={selectedCentre} onSelect={handleSelectDate} />
         )}
-
         {step === 'slot' && (
-          <SlotSelection
-            centre={selectedCentre}
-            date={selectedDate}
-            onSelect={handleSelectSlot}
-          />
+          <SlotSelection centre={selectedCentre} date={selectedDate} onSelect={handleSelectSlot} />
         )}
-
         {step === 'review' && (
           <BookingReview
             farmerName={farmerName}
@@ -190,19 +115,16 @@ function BookingFlow({ onDone }) {
             onConfirm={handleConfirmBooking}
           />
         )}
-
         {step === 'confirmation' && (
           <BookingConfirmation
-            tokenNumber={tokenNumber}
+            tokenNumber={confirmedBooking?.token}
             centre={selectedCentre}
             date={selectedDate}
             slot={selectedSlot}
-            onReturnToDashboard={onDone}
+            onReturnToDashboard={() => onDone(confirmedBooking)}
           />
         )}
-
       </main>
-
     </div>
   )
 }
